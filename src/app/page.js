@@ -1,29 +1,52 @@
 "use client";
 
 import Head from 'next/head';
-import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import  Timer from '@/app/components/Timer'
 
 export default function Home() {
   const [showForm, setShowForm] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [duration, setDuration] = useState(60); // Default 60 seconds
+  const [showPopup, setShowPopup] = useState(false);
+
 
   const handleShowForm = () => {
     setShowForm(true);
   };
 
+  const handleDurationChange = (e) => {
+    setDuration(Number(e.target.value));
+  };
+
+  const startTimer = () => {
+    setIsPlaying(true);
+  };
+
+
+  useEffect(() => {
+    let timer;
+    if (showPopup) {
+      timer = setTimeout(() => setShowPopup(false), 2000); // Hide popup after 2 seconds
+    }
+    return () => clearTimeout(timer);
+  }, [showPopup]);
+
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
+    <div className="relative bg-cover bg-center min-h-screen flex flex-col items-center justify-center" style={{ backgroundImage: 'url(https://i.natgeofe.com/n/726708f7-f79d-47a5-ba03-711449823607/01-balance-of-nature.jpg)' }}>
       <Head>
         <title>Orue Fimer</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="bg-gray-200 p-8 rounded-lg shadow-md">
+      <div className="absolute inset-0 bg-gray-900 opacity-50"></div>
+
+      <div className="relative z-10 bg-gray-200 bg-opacity-50 p-8 rounded-lg shadow-md flex flex-col items-center">
         <h1 className="text-3xl font-bold text-center mb-4">
-          316NFELAT NA THE
+          Mindfulness Timer
         </h1>
         <h2 className="text-2xl font-semibold text-center mb-2">
-          Orue Fimer
+          peace in mind
         </h2>
         <p className="text-gray-600 text-center mb-6">
           Bleniotsiven ακενιποιτάς τοιτ-DMSO
@@ -31,26 +54,13 @@ export default function Home() {
           COTIRE RDA RDIOLI CHER GJONA
         </p>
 
-        <div className="relative w-48 h-48 mx-auto">
-          <Image
-            src="/forest-circle.svg"
-            alt="Forest Circle"
-            layout="fill"
-            objectFit="contain"
-            priority
-          />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-gray-800">
-            SIOTA JALETT
-          </div>
-        </div>
+        <Timer />
 
-        <button onClick={handleShowForm} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">
-          Aeon mo inagssonk
-        </button>
+       
       </div>
 
       {showForm && (
-        <div className="bg-gray-200 p-8 rounded-lg shadow-md mt-6">
+        <div className="relative z-10 bg-gray-200 bg-opacity-50 p-8 rounded-lg shadow-md mt-6">
           <p className="text-gray-600 mb-4">
             Foercivvattathuot omnice senet erανατέσίσεις είνμe tot honor chanrotes aro, facitonitistaar borsar fee foccerun fremt bo19.000
             <br />
