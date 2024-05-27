@@ -60,6 +60,7 @@ export default function Timer() {
     e.stopPropagation();
     if (!isPlaying) {
       setEditingTime(true);
+      e.target.select(); // Select the input content on click
     }
   };
 
@@ -71,6 +72,36 @@ export default function Timer() {
       setInputMinutes(Math.min(parseInt(value), 60));
     }
   };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleInputBlur(e);
+    }
+    if (!editingTime) {
+      if (e.key === " ") {
+        handlePlayPause(e);
+      } else if (e.key.toLowerCase() === "r") {
+        handleReset(e);
+      } else if (e.key.toLowerCase() === "s") {
+        handleStop(e);
+      }
+    }
+  };
+
+  useEffect(() => {
+    let timer;
+    if (showPopup) {
+      timer = setTimeout(() => setShowPopup(false), 2000); // Hide popup after 2 seconds
+    }
+    return () => clearTimeout(timer);
+  }, [showPopup]);
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isPlaying, editingTime]);
 
   const formatTime = (time) => {
     const hours = String(Math.floor(time / 3600)).padStart(2, "0");
@@ -84,7 +115,6 @@ export default function Timer() {
     setEditingTime(false);
     setUserInteraced(true);
     setIsPlaying((prev) => !prev);
-    
   };
 
   const handleReset = (e) => {
@@ -110,19 +140,9 @@ export default function Timer() {
     }
   };
 
-  useEffect(() => {
-    let timer;
-    if (showPopup) {
-      timer = setTimeout(() => setShowPopup(false), 2000); // Hide popup after 2 seconds
-    }
-    return () => clearTimeout(timer);
-  }, [showPopup]);
-
   return (
     <div className="relative w-64 h-64 mx-auto mb-6">
       <div
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
         onWheel={handleScroll}
         onClick={handleTimerClick}
         style={{ cursor: "pointer" }}
@@ -134,9 +154,9 @@ export default function Timer() {
           colors={["#eee"]}
           onComplete={() => setIsPlaying(false)}
           size={256}
-          strokeWidth={6}
+          strokeWidth={7}
           trailColor="#747275"
-          trailStrokeWidth={6}
+          trailStrokeWidth={7}
         >
           {({ remainingTime }) => (
             <div className="flex flex-col items-center justify-center text-center">
@@ -145,49 +165,53 @@ export default function Timer() {
                   <span className="text-4xl">{formatTime(remainingTime)}</span>
                   {!isPlaying && (
                     <span className="block mt-1 text-sm text-gray-600">
-                      Click to set time
+                      Click or scroll
                     </span>
                   )}
                 </div>
               ) : (
-                <div>
+                <div className="flex items-center w-full">
                   <input
                     type="number"
                     value={inputHours}
                     onClick={handleInputClick}
                     onChange={(e) => handleInputChange(e, "hours")}
                     onBlur={handleInputBlur}
-                    className="w-14 bg-gray-300 rounded-md px-2 py-1 text-center text-xl"
+                    onKeyDown={handleKeyDown}
+                    className="w-14 flex-grow-0 flex-shrink-0 border border-white rounded-md px-2 py-1 text-center text-xl bg-transparent focus:border-blue-500 outline-none appearance-none no-spinner"
                   />
-                  <span className="text-xl">h</span>
-                  <span className="mx-1 text-xl"> : </span>
+                  <span className="text-xl mx-1">h</span>
+                  <span className="text-xl mx-1">:</span>
                   <input
                     type="number"
                     value={inputMinutes}
                     onClick={handleInputClick}
                     onChange={(e) => handleInputChange(e, "minutes")}
                     onBlur={handleInputBlur}
-                    className="w-14 bg-gray-300 rounded-md px-2 py-1 text-center text-xl"
+                    onKeyDown={handleKeyDown}
+                    className="w-14 flex-grow-0 flex-shrink-0 border border-white rounded-md px-2 py-1 text-center text-xl bg-transparent focus:border-blue-500 outline-none appearance-none no-spinner"
                   />
-                  <span className="text-xl">m</span>
+                  <span className="text-xl mx-1">m</span>
                 </div>
               )}
             </div>
           )}
         </CountdownCircleTimer>
-        {showPopup && (
-          <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 bg-gray-700 text-white text-xs rounded-md px-2 py-1 opacity-75">
-            Scroll up/down to set the time
-          </div>
-        )}
+        
       </div>
       <div className="flex justify-center mt-4 space-x-8">
         {!isPlaying ? (
-          <button onClick={handleReset} className="text-white hover:text-gray-200">
+          <button
+            onClick={handleReset}
+            className="text-white hover:text-gray-200"
+          >
             <FontAwesomeIcon icon={faRedo} size="2x" />
           </button>
         ) : (
-          <button onClick={handleStop} className="text-white hover:text-gray-200">
+          <button
+            onClick={handleStop}
+            className="text-white hover:text-gray-200"
+          >
             <FontAwesomeIcon icon={faStop} size="2x" />
           </button>
         )}
@@ -203,7 +227,6 @@ export default function Timer() {
         <button
           onClick={handlePlayPause}
           className={`text-white hover:text-gray-200`}
-          
         >
           <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} size="2x" />
         </button>

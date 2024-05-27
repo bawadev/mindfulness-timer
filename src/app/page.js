@@ -1,6 +1,13 @@
 "use client";
 import Head from "next/head";
-import { useState, useEffect, createContext, useContext, useRef, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+  useRef,
+  useCallback,
+} from "react";
 import Timer from "@/app/components/Timer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,7 +15,11 @@ import {
   faAngleRight,
   faVolumeUp,
   faVolumeMute,
+  faCogs,
+  faChartLine,
+  faBook,
 } from "@fortawesome/free-solid-svg-icons";
+import NavigationBar from "./components/NavBar";
 
 const TimerContext = createContext();
 export const useTimer = () => {
@@ -36,6 +47,13 @@ export default function Home() {
     },
     // Add more audio-image pairs here
   ];
+  const handleMouseEnter = () => {
+    setShowPopup(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowPopup(false);
+  };
 
   const loadToneUtils = async () => {
     if (!toneUtils) {
@@ -48,6 +66,13 @@ export default function Home() {
       return toneUtils;
     }
   };
+  useEffect(() => {
+    let timer;
+    if (showPopup) {
+      timer = setTimeout(() => setShowPopup(false), 3000); // Hide popup after 2 seconds
+    }
+    return () => clearTimeout(timer);
+  }, [showPopup]);
 
   const handleLeftClick = async () => {
     const utils = await loadToneUtils();
@@ -72,7 +97,6 @@ export default function Home() {
         console.log("toggle play sound");
         playSound();
       } else {
-        
         stopSound();
       }
       return newMuted;
@@ -98,14 +122,11 @@ export default function Home() {
         if (!isMuted) {
           playSound();
         }
-        
       } else {
         console.log("effect stop");
         stopSound();
       }
-    } 
-    
-    
+    }
   }, [isPlaying]);
 
   useEffect(() => {
@@ -118,7 +139,7 @@ export default function Home() {
   useEffect(() => {
     let timer;
     if (showPopup) {
-      timer = setTimeout(() => setShowPopup(false), 2000); // Hide popup after 2 seconds
+      timer = setTimeout(() => setShowPopup(false), 4000); // Hide popup after 2 seconds
     }
     return () => clearTimeout(timer);
   }, [showPopup]);
@@ -131,24 +152,33 @@ export default function Home() {
       }}
     >
       <Head>
-        <title>Orue Timer</title>
+        <title>Mindfulness Timer</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+  
+      <NavigationBar/>
+  
       <div className="absolute inset-0 bg-gray-900 opacity-50"></div>
-
-      <div className="relative z-10 bg-gray-200 bg-opacity-50 p-8 rounded-lg shadow-md flex flex-col items-center">
-        <h1 className="text-3xl font-bold text-center mb-4">
-          Mindfulness Timer
-        </h1>
-        <p className="text-gray-700 text-center mb-6">
-          Find your inner calm in just a few minutes. <br />
+  
+      <div
+        className="relative z-10 bg-gray-200 bg-opacity-50 p-8 rounded-lg shadow-md flex flex-col items-center"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <p className="text-gray-600 text-center text-base mb-6">
+          Find your inner calm in few minutes. <br />
+          
           Let's focus, peace, and clarity to your life.
         </p>
-        <TimerContext.Provider value={{ isPlaying, setIsPlaying , setUserInteraced}}>
-          <Timer
-            isPlaying={isPlaying}
-          />
+        <TimerContext.Provider
+          value={{ isPlaying, setIsPlaying, setUserInteraced }}
+        >
+          <Timer isPlaying={isPlaying} />
+          {showPopup && (
+            <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 bg-gray-700 text-white text-xs rounded-md px-2 py-1 opacity-75">
+              [Space] - Start/ Pause <br/>[Enter] - Set time <br/>[R] - Restart <br/>[S] - Stop
+            </div>
+          )}
           <div className="flex justify-center mt-20">
             <button
               className="text-white hover:text-gray-200"
@@ -178,4 +208,5 @@ export default function Home() {
       </div>
     </div>
   );
+  
 }
