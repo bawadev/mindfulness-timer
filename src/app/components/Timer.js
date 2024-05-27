@@ -8,9 +8,10 @@ import {
   faSyncAlt,
   faStop,
 } from "@fortawesome/free-solid-svg-icons";
+import { useTimer } from "../page";
 
 export default function Timer() {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const { isPlaying, setIsPlaying, setUserInteraced } = useTimer();
   const [duration, setDuration] = useState(0); // Default 0 seconds
   const [initialDuration, setInitialDuration] = useState(0); // To store user's initial time
   const [showPopup, setShowPopup] = useState(false);
@@ -31,21 +32,20 @@ export default function Timer() {
     if (e.deltaY !== 0 && !editingTime) {
       const increment = e.deltaY < 0 ? -5 : 5; // Increment or decrement by 5 minutes (300 seconds)
       setDuration((prevDuration) => Math.max(0, prevDuration + increment));
-      setInitialDuration(() => setInitialDuration(duration)); //
+      setInitialDuration(duration);
     }
   };
 
   const handleTimerClick = () => {
     if (!isPlaying) {
-        if (editingTime) {
-            setEditingTime(false);
-          } else {
-            setEditingTime(true);
-          }
-          setInputHours(Math.floor(duration / 3600));
-          setInputMinutes(Math.floor((duration % 3600) / 60));
+      if (editingTime) {
+        setEditingTime(false);
+      } else {
+        setEditingTime(true);
+      }
+      setInputHours(Math.floor(duration / 3600));
+      setInputMinutes(Math.floor((duration % 3600) / 60));
     }
-    
   };
 
   const handleInputBlur = (e) => {
@@ -59,7 +59,7 @@ export default function Timer() {
   const handleInputClick = (e) => {
     e.stopPropagation();
     if (!isPlaying) {
-        setEditingTime(true);
+      setEditingTime(true);
     }
   };
 
@@ -82,9 +82,9 @@ export default function Timer() {
   const handlePlayPause = (e) => {
     e.stopPropagation();
     setEditingTime(false);
-    if (duration > 0) {
-      setIsPlaying((prev) => !prev);
-    }
+    setUserInteraced(true);
+    setIsPlaying((prev) => !prev);
+    
   };
 
   const handleReset = (e) => {
@@ -104,7 +104,7 @@ export default function Timer() {
   const handleRestart = (e) => {
     e.stopPropagation();
     if (isPlaying) {
-      setDuration(() => initialDuration);
+      setDuration(initialDuration);
       setCountDownKey((prevKey) => prevKey + 1); // Update key to restart timer
       setIsPlaying(true);
     }
@@ -131,25 +131,23 @@ export default function Timer() {
           key={countDownKey}
           isPlaying={isPlaying}
           duration={duration}
-          colors={[
-            ["#004777", 0.33],
-            ["#F7B801", 0.33],
-            ["#A30000", 0.33],
-          ]}
+          colors={["#eee"]}
           onComplete={() => setIsPlaying(false)}
           size={256}
-          strokeWidth={4}
-          trailColor="#eee"
-          trailStrokeWidth={4}
+          strokeWidth={6}
+          trailColor="#747275"
+          trailStrokeWidth={6}
         >
           {({ remainingTime }) => (
             <div className="flex flex-col items-center justify-center text-center">
               {!editingTime ? (
                 <div>
                   <span className="text-4xl">{formatTime(remainingTime)}</span>
-                  <span className="block mt-1 text-sm text-gray-600">
-                    Click to set time
-                  </span>
+                  {!isPlaying && (
+                    <span className="block mt-1 text-sm text-gray-600">
+                      Click to set time
+                    </span>
+                  )}
                 </div>
               ) : (
                 <div>
@@ -185,17 +183,11 @@ export default function Timer() {
       </div>
       <div className="flex justify-center mt-4 space-x-8">
         {!isPlaying ? (
-          <button
-            onClick={handleReset}
-            className="text-white hover:text-gray-200"
-          >
+          <button onClick={handleReset} className="text-white hover:text-gray-200">
             <FontAwesomeIcon icon={faRedo} size="2x" />
           </button>
         ) : (
-          <button
-            onClick={handleStop}
-            className="text-white hover:text-gray-200"
-          >
+          <button onClick={handleStop} className="text-white hover:text-gray-200">
             <FontAwesomeIcon icon={faStop} size="2x" />
           </button>
         )}
@@ -210,10 +202,8 @@ export default function Timer() {
         </button>
         <button
           onClick={handlePlayPause}
-          className={`text-white hover:text-gray-200 ${
-            duration === 0 ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-          disabled={duration === 0}
+          className={`text-white hover:text-gray-200`}
+          
         >
           <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} size="2x" />
         </button>
