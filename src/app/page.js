@@ -20,6 +20,7 @@ import {
   faBook,
 } from "@fortawesome/free-solid-svg-icons";
 import NavigationBar from "./components/NavBar";
+import { audioImageArray } from "./resources/sources";
 
 const TimerContext = createContext();
 export const useTimer = () => {
@@ -34,19 +35,7 @@ export default function Home() {
   const [toneUtils, setToneUtils] = useState(null);
   const [userInteracted, setUserInteraced] = useState(false);
 
-  const audioImageArray = [
-    {
-      audio: "rain1.wav",
-      image:
-        "https://i.natgeofe.com/n/726708f7-f79d-47a5-ba03-711449823607/01-balance-of-nature.jpg",
-    },
-    {
-      audio: "rain2.wav",
-      image:
-        "https://media.istockphoto.com/id/517188688/photo/mountain-landscape.jpg?s=1024x1024&w=0&k=20&c=z8_rWaI8x4zApNEEG9DnWlGXyDIXe-OmsAyQ5fGPVV8=",
-    },
-    // Add more audio-image pairs here
-  ];
+  
   const handleMouseEnter = () => {
     setShowPopup(true);
   };
@@ -139,7 +128,7 @@ export default function Home() {
   useEffect(() => {
     let timer;
     if (showPopup) {
-      timer = setTimeout(() => setShowPopup(false), 4000); // Hide popup after 2 seconds
+      timer = setTimeout(() => setShowPopup(false), 2000); // Hide popup after 2 seconds
     }
     return () => clearTimeout(timer);
   }, [showPopup]);
@@ -156,7 +145,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
   
-      <NavigationBar/>
+      <NavigationBar isWhite={true}/>
   
       <div className="absolute inset-0 bg-gray-900 opacity-50"></div>
   

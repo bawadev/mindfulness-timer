@@ -1,22 +1,65 @@
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartLine, faBook, faCogs } from "@fortawesome/free-solid-svg-icons";
+import { faChartLine, faBook, faCogs, faBars } from "@fortawesome/free-solid-svg-icons";
 
-const NavigationBar = () => {
+const NavigationBar = ({ isWhite }) => {
+  const [showMenu, setShowMenu] = useState(false);
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
+
   return (
     <nav className="fixed top-0 w-full z-20">
-      <div className="container mx-auto flex items-center justify-between py-4 px-8">
-      <div className="ml-20 text-white text-3xl font-bold rounded-font">Mindfulness Timer</div>
+      <div className="container mx-auto flex items-center justify-between py-4 px-4 md:px-8">
+        <div className={`text-3xl font-bold rounded-font ${isWhite ? "text-white" : "text-black"} md:ml-20`}>
+          <a href="/">Mindfulness Timer</a>
+        </div>
 
-        <div className="flex mr-10 items-center space-x-6">
-          <a href="/stats" className="text-white hover:text-gray-300">
-            <FontAwesomeIcon icon={faChartLine} size="2x" className="text-white m-5" />
-          </a>
-          <a href="/resources" className="text-white hover:text-gray-300">
-            <FontAwesomeIcon icon={faBook} size="2x" className="text-white m-5" />
-          </a>
-          <a href="/settings" className="text-white hover:text-gray-300">
-            <FontAwesomeIcon icon={faCogs} size="2x" className="text-white m-5" />
-          </a>
+        <div className="flex items-center md:mr-10">
+          {/* Hamburger Menu */}
+          <div className="md:hidden">
+            <button onClick={toggleMenu} className="text-gray-800 focus:outline-none">
+              <FontAwesomeIcon icon={faBars} size="2x" />
+            </button>
+          </div>
+
+          {/* Links */}
+          <div className={`md:flex ${showMenu ? "block" : "hidden"} md:items-center space-x-6 mt-4 md:mt-0`}>
+            <a href="/stats" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
+              <FontAwesomeIcon icon={faChartLine} size="2x" className={isWhite ? "text-white m-5" : "text-black m-5"} />
+            </a>
+            <a href="/resources" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
+              <FontAwesomeIcon icon={faBook} size="2x" className={isWhite ? "text-white m-5" : "text-black m-5"} />
+            </a>
+            <a href="/settings" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
+              <FontAwesomeIcon icon={faCogs} size="2x" className={isWhite ? "text-white m-5" : "text-black m-5"} />
+            </a>
+          </div>
+          {showMenu && (
+            <div ref={popupRef} className={`absolute top-12 right-0 mt-2 ${!isWhite ? "bg-white" : "bg-black"} p-4 rounded-lg shadow-lg bg-opacity-80`}>
+              <ul className="text-center">
+                <li className="py-2">
+                  <a href="/stats" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
+                    <FontAwesomeIcon icon={faChartLine} className="mr-2" />
+                    Statistics
+                  </a>
+                </li>
+                <li className="py-2">
+                  <a href="/resources" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
+                    <FontAwesomeIcon icon={faBook} className="mr-2" />
+                    Resources
+                  </a>
+                </li>
+                <li className="py-2">
+                  <a href="/settings" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
+                    <FontAwesomeIcon icon={faCogs} className="mr-2" />
+                    Settings
+                  </a>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </nav>

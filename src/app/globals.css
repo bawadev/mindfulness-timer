@@ -58,3 +58,33 @@ input[type="number"] {
   font-family: 'Roboto', sans-serif;
   /* Add more styles to achieve rounded edges */
 }
+
+.opacity-low {
+  opacity: 0.1;
+  transition: opacity 1s;
+}
+
+.opacity-high {
+  opacity: 0.8;
+  transition: opacity 1s;
+}
+
+/* styles/globals.css */
+.chart-container {
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1 {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+h2 {
+  text-align: center;
+  margin: 1rem 0;
+}
+

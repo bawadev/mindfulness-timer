@@ -9,8 +9,10 @@ import {
   faStop,
 } from "@fortawesome/free-solid-svg-icons";
 import { useTimer } from "../page";
+import EmotionPopup from "./Popup";
 
 export default function Timer() {
+  const [showFeedPopup, setShowFeedPopup] = useState(false);
   const { isPlaying, setIsPlaying, setUserInteraced } = useTimer();
   const [duration, setDuration] = useState(0); // Default 0 seconds
   const [initialDuration, setInitialDuration] = useState(0); // To store user's initial time
@@ -125,7 +127,10 @@ export default function Timer() {
   };
 
   const handleStop = (e) => {
-    e.stopPropagation();
+    if (e) {
+      e.stopPropagation();
+    }
+    setShowFeedPopup(true);
     setDuration(0);
     setCountDownKey((prevKey) => prevKey + 1);
     setIsPlaying(false); // Update key to restart timer
@@ -140,6 +145,22 @@ export default function Timer() {
     }
   };
 
+  const handleSaveEmotions = (emotions) => {
+    const sessionData = {
+      emotions,
+      timestamp: new Date(),
+    };
+    const previousSessions = JSON.parse(localStorage.getItem("emotions")) || [];
+    localStorage.setItem(
+      "emotions",
+      JSON.stringify([...previousSessions, sessionData])
+    );
+  };
+
+  const handlePopupBlur = ()=>{
+    setShowFeedPopup(false);
+  };
+
   return (
     <div className="relative w-64 h-64 mx-auto mb-6">
       <div
@@ -152,7 +173,10 @@ export default function Timer() {
           isPlaying={isPlaying}
           duration={duration}
           colors={["#eee"]}
-          onComplete={() => setIsPlaying(false)}
+          onComplete={() => {
+            setIsPlaying(false);
+            setShowFeedPopup(true);
+          }}
           size={256}
           strokeWidth={7}
           trailColor="#747275"
@@ -197,7 +221,6 @@ export default function Timer() {
             </div>
           )}
         </CountdownCircleTimer>
-        
       </div>
       <div className="flex justify-center mt-4 space-x-8">
         {!isPlaying ? (
@@ -231,6 +254,11 @@ export default function Timer() {
           <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} size="2x" />
         </button>
       </div>
+      <EmotionPopup
+        show={showFeedPopup}
+        onClose={() => setShowFeedPopup(false)}
+        onSave={handleSaveEmotions}
+      />
     </div>
   );
 }
