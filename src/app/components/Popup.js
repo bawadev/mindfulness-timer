@@ -3,15 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSmile, faFrown } from "@fortawesome/free-solid-svg-icons";
 
 export default function EmotionPopup({ show, onClose, onSave }) {
-  const [emotions, setEmotions] = useState([50, 50, 50, 50, 50]);
+  const [emotions, setEmotions] = useState([50, 50, 50, 50, 50, 50]);
   const emotionsLables = [
     { emoji1: "😊", emoji1Name: "Happy" },
+    { emoji1: "💪", emoji1Name: "Energized" },
     { emoji1: "😌", emoji1Name: "Relaxed" },
+    { emoji1: "🧠", emoji1Name: "Smart" },
     { emoji1: "❤️", emoji1Name: "Love" },
     { emoji1: "🤞", emoji1Name: "Hope" },
-    { emoji1: "🧠", emoji1Name: "Smart" },
-    { emoji1: "💪", emoji1Name: "Energized" },
+    
   ];
+  
   const [note, setNote] = useState("");
   const popupRef = useRef(null);
 
@@ -38,7 +40,7 @@ export default function EmotionPopup({ show, onClose, onSave }) {
 
   useEffect(() => {
     if (show) {
-      setEmotions([50, 50, 50, 50, 50]);
+      setEmotions([50, 50, 50, 50, 50, 50]);
       setNote("");
     }
   }, [show]);
@@ -87,11 +89,12 @@ export default function EmotionPopup({ show, onClose, onSave }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div ref={popupRef} className="bg-white p-4 md:p-8 rounded-lg shadow-lg">
+      <div ref={popupRef} className="bg-white p-4 md:p-8 rounded-lg shadow-lg md:w-150">
+
         <h2 className="text-lg md:text-xl mb-4 text-gray-700">
           How do you feel?
         </h2>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-5 md:gap-8">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-8">
           {emotions.map((value, index) => (
             <div key={index} className="flex flex-col items-center">
               <span className="text-gray-800">

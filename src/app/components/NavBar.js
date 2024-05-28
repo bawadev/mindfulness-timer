@@ -38,7 +38,7 @@ const NavigationBar = ({ isWhite }) => {
         <div className="relative">
           {/* Hamburger Menu */}
           <div className="md:hidden">
-            <button onClick={toggleMenu} className="text-gray-800 focus:outline-none">
+            <button onClick={toggleMenu} className={`${isWhite ? "text-white" : "text-black"} focus:outline-none`}>
               <FontAwesomeIcon icon={faBars} size="2x" />
             </button>
           </div>
