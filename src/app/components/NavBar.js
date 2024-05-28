@@ -1,9 +1,28 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartLine, faBook, faCogs, faBars } from "@fortawesome/free-solid-svg-icons";
 
 const NavigationBar = ({ isWhite }) => {
   const [showMenu, setShowMenu] = useState(false);
+  const popupRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowMenu(false);
+      }
+    };
+
+    if (showMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showMenu]);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -16,27 +35,17 @@ const NavigationBar = ({ isWhite }) => {
           <a href="/">Mindfulness Timer</a>
         </div>
 
-        <div className="flex items-center md:mr-10">
+        <div className="relative">
           {/* Hamburger Menu */}
           <div className="md:hidden">
             <button onClick={toggleMenu} className="text-gray-800 focus:outline-none">
               <FontAwesomeIcon icon={faBars} size="2x" />
             </button>
           </div>
+          
 
-          {/* Links */}
-          <div className={`md:flex ${showMenu ? "block" : "hidden"} md:items-center space-x-6 mt-4 md:mt-0`}>
-            <a href="/stats" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
-              <FontAwesomeIcon icon={faChartLine} size="2x" className={isWhite ? "text-white m-5" : "text-black m-5"} />
-            </a>
-            <a href="/resources" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
-              <FontAwesomeIcon icon={faBook} size="2x" className={isWhite ? "text-white m-5" : "text-black m-5"} />
-            </a>
-            <a href="/settings" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
-              <FontAwesomeIcon icon={faCogs} size="2x" className={isWhite ? "text-white m-5" : "text-black m-5"} />
-            </a>
-          </div>
-          {showMenu && (
+          {/* Popup Menu */}
+          {showMenu ? (
             <div ref={popupRef} className={`absolute top-12 right-0 mt-2 ${!isWhite ? "bg-white" : "bg-black"} p-4 rounded-lg shadow-lg bg-opacity-80`}>
               <ul className="text-center">
                 <li className="py-2">
@@ -59,7 +68,18 @@ const NavigationBar = ({ isWhite }) => {
                 </li>
               </ul>
             </div>
-          )}
+          ):(
+          <div className={`md:flex ${showMenu ? "block" : "hidden"} md:items-center space-x-6 mt-4 md:mt-0`}>
+            <a href="/stats" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
+              <FontAwesomeIcon icon={faChartLine} size="2x" className={isWhite ? "text-white m-5" : "text-black m-5"} />
+            </a>
+            <a href="/resources" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
+              <FontAwesomeIcon icon={faBook} size="2x" className={isWhite ? "text-white m-5" : "text-black m-5"} />
+            </a>
+            <a href="/settings" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
+              <FontAwesomeIcon icon={faCogs} size="2x" className={isWhite ? "text-white m-5" : "text-black m-5"} />
+            </a>
+          </div>)}
         </div>
       </div>
     </nav>
