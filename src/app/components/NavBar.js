@@ -55,13 +55,13 @@ const NavigationBar = ({ isWhite }) => {
                   </a>
                 </li>
                 <li className="py-2">
-                  <a href="/resources" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
+                  <a href="/mindfulness-timer/resources" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
                     <FontAwesomeIcon icon={faBook} className="mr-2" />
                     Resources
                   </a>
                 </li>
                 <li className="py-2">
-                  <a href="/settings" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
+                  <a href="/mindfulness-timer/settings" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
                     <FontAwesomeIcon icon={faCogs} className="mr-2" />
                     Settings
                   </a>
