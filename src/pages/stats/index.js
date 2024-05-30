@@ -120,84 +120,79 @@ const InsightsPage = () => {
 
   return (
     <>
-    <NavigationBar isWhite = {false}/>
-    <div className='h-20'/>
-    <div className="container mx-auto p-4">
-      
-      <h1 className="text-3xl font-bold text-center mt-10 mb-10">Insights</h1>
+      <NavigationBar isWhite={false} />
+      <div className="h-20" />
+      <div className="container mx-auto p-4">
+        <h1 className="text-4xl font-bold text-center mt-10 mb-10">Insights</h1>
 
-      <div className="mb-12">
-        <h2 className="text-2xl font-semibold text-center mb-2">Mood Distribution</h2>
-        <p className="text-center text-gray-700 mb-4 text-xl">
-          This chart shows the average distribution of your emotions over the recorded sessions.
-          It helps you understand which emotions are most prevalent in your daily life.
-          By observing the distribution, you can identify emotional patterns and areas for improvement.
-        </p>
-        <div className="flex justify-center">
-          <div className="w-full md:w-1/3">
-            <Doughnut data={chartData.moodDistribution} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-zinc-100 rounded-lg shadow-md p-6">
+            <h2 className="text-2xl font-semibold text-center mb-4">Mood Distribution</h2>
+            <p className="text-center text-gray-700 mb-4">
+              This chart shows the average distribution of your emotions over the recorded sessions.
+              It helps you understand which emotions are most prevalent in your daily life.
+            </p>
+            <div className="flex justify-center">
+              <div className="w-full md:w-2/3">
+                <Doughnut data={chartData.moodDistribution} />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-zinc-100 rounded-lg shadow-md p-6">
+            <h2 className="text-2xl font-semibold text-center mb-4">Mood Trends</h2>
+            <p className="text-center text-gray-700 mb-4">
+              This chart displays the trend of each emotion over time. 
+              It helps you see how your emotional states have changed over the recorded sessions.
+            </p>
+            <div className="flex justify-center">
+              <div className="w-full md:w-2/3">
+                <Line data={chartData.moodTrends} />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-zinc-100 rounded-lg shadow-md p-6">
+            <h2 className="text-2xl font-semibold text-center mb-4">Average Mood</h2>
+            <p className="text-center text-gray-700 mb-4">
+              The radar chart illustrates your average emotional state. 
+              It helps you see the balance between different emotions.
+            </p>
+            <div className="flex justify-center">
+              <div className="w-full md:w-2/3">
+                <Radar data={chartData.averageMood} />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-zinc-100 rounded-lg shadow-md p-6">
+            <h2 className="text-2xl font-semibold text-center mb-4">Emotion Correlations</h2>
+            <p className="text-center text-gray-700 mb-4">
+              This bar chart shows how different emotions correlate with each other.
+              It helps you understand which emotions tend to occur together.
+            </p>
+            <div className="flex justify-center">
+              <div className="w-full md:w-2/3">
+                <Bar data={chartData.emotionCorrelations} />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-zinc-100 rounded-lg shadow-md p-6">
+            <h2 className="text-2xl font-semibold text-center mb-4">Emotion Balance</h2>
+            <p className="text-center text-gray-700 mb-4">
+              The pie chart represents the balance of your emotions. 
+              It helps you see the proportion of each emotion in your overall emotional state.
+            </p>
+            <div className="flex justify-center">
+              <div className="w-full md:w-2/3">
+                <Pie data={chartData.emotionBalance} />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-      <div className="mb-12">
-        <h2 className="text-2xl font-semibold text-center mb-2">Mood Trends</h2>
-        <p className="text-center text-gray-700 mb-4 text-xl">
-          This chart displays the trend of each emotion over time. 
-          It helps you see how your emotional states have changed over the recorded sessions.
-          Tracking mood trends can provide insights into the factors influencing your emotions and help you manage them better.
-        </p>
-        <div className="flex justify-center">
-          <div className="w-full md:w-1/2">
-            <Line data={chartData.moodTrends} />
-          </div>
-        </div>
-      </div>
-
-      <div className="mb-12">
-        <h2 className="text-2xl font-semibold text-center mb-2">Average Mood</h2>
-        <p className="text-center text-gray-700 mb-4 text-xl">
-          The radar chart illustrates your average emotional state. 
-          It helps you see the balance between different emotions.
-          A balanced chart indicates a well-rounded emotional state, while imbalances may highlight areas needing attention.
-        </p>
-        <div className="flex justify-center">
-          <div className="w-full md:w-1/2">
-            <Radar data={chartData.averageMood} />
-          </div>
-        </div>
-      </div>
-
-      <div className="mb-12">
-        <h2 className="text-2xl font-semibold text-center mb-2">Emotion Correlations</h2>
-        <p className="text-center text-gray-700 mb-4 text-xl">
-          This bar chart shows how different emotions correlate with each other.
-          It helps you understand which emotions tend to occur together.
-          By identifying correlations, you can gain insights into emotional triggers and improve emotional regulation.
-        </p>
-        <div className="flex justify-center">
-          <div className="w-full md:w-1/2">
-            <Bar data={chartData.emotionCorrelations} />
-          </div>
-        </div>
-      </div>
-
-      <div className="mb-12">
-        <h2 className="text-2xl font-semibold text-center mb-2">Emotion Balance</h2>
-        <p className="text-center text-gray-700 mb-4 text-xl">
-          The pie chart represents the balance of your emotions. 
-          It helps you see the proportion of each emotion in your overall emotional state.
-          Understanding your emotional balance can guide you in fostering positive emotions and addressing negative ones.
-        </p>
-        <div className="flex justify-center">
-          <div className="w-full md:w-1/3">
-            <Pie data={chartData.emotionBalance} />
-          </div>
-        </div>
-      </div>
-    </div>
     </>
-    
   );
 };
 
