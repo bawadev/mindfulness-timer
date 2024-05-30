@@ -49,19 +49,19 @@ const NavigationBar = ({ isWhite }) => {
             <div ref={popupRef} className={`absolute top-12 right-0 mt-2 ${!isWhite ? "bg-white" : "bg-black"} p-4 rounded-lg shadow-lg bg-opacity-80`}>
               <ul className="text-center">
                 <li className="py-2">
-                  <a href="/stats" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
+                  <a href="/mindfulness-timer/stats" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
                     <FontAwesomeIcon icon={faChartLine} className="mr-2" />
                     Statistics
                   </a>
                 </li>
                 <li className="py-2">
-                  <a href="/resources" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
+                  <a href="/mindfulness-timer/resources" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
                     <FontAwesomeIcon icon={faBook} className="mr-2" />
                     Resources
                   </a>
                 </li>
                 <li className="py-2">
-                  <a href="/settings" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
+                  <a href="/mindfulness-timer/settings" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
                     <FontAwesomeIcon icon={faCogs} className="mr-2" />
                     Settings
                   </a>

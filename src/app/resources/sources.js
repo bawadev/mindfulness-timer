@@ -1,25 +1,25 @@
 
 export const audioImageArray = [
     {
-      audio: "rain1.wav",
+      audio: "sounds/rain1.wav",
       image:
         "images/rain1.jpg",
     },
     {
-      audio: "waves1.mp3",
+      audio: "sounds/waves1.mp3",
       image: "images/waves1.jpg",
     },
     {
-      audio: "forest1.mp3",
+      audio: "sounds/forest1.mp3",
       image:"images/forest1.jpg",
     },
     {
-      audio: "rain2.wav",
+      audio: "sounds/rain2.wav",
       image:
         "images/rain2.jpg",
     },
     {
-      audio: "wind1.mp3",
+      audio: "sounds/wind1.mp3",
       image:
         "images/wind1.jpg",
     }

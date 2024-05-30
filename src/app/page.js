@@ -95,7 +95,7 @@ export default function Home() {
   const playSound = useCallback(async () => {
     console.log("home start sound");
     const utils = await loadToneUtils();
-    utils.playRainSound(`/sounds/${audioImageArray[currentIndex].audio}`);
+    utils.playRainSound(`${audioImageArray[currentIndex].audio}`);
   });
 
   const stopSound = useCallback(async () => {
