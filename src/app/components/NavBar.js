@@ -32,7 +32,7 @@ const NavigationBar = ({ isWhite }) => {
     <nav className="fixed top-0 w-full z-20">
       <div className="container mx-auto flex items-center justify-between py-4 px-4 md:px-8">
         <div className={`text-3xl font-bold rounded-font ${isWhite ? "text-white" : "text-black"} md:ml-20`}>
-          <a href="/">Mindfulness Timer</a>
+          <a href="/mindfulness-timer/">Mindfulness Timer</a>
         </div>
 
         <div className="relative">
@@ -73,10 +73,10 @@ const NavigationBar = ({ isWhite }) => {
             <a href="/mindfulness-timer/stats" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
               <FontAwesomeIcon icon={faChartLine} size="2x" className={isWhite ? "text-white m-5" : "text-black m-5"} />
             </a>
-            <a href="/resources" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
+            <a href="/mindfulness-timer/resources" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
               <FontAwesomeIcon icon={faBook} size="2x" className={isWhite ? "text-white m-5" : "text-black m-5"} />
             </a>
-            <a href="/settings" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
+            <a href="/mindfulness-timer/settings" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
               <FontAwesomeIcon icon={faCogs} size="2x" className={isWhite ? "text-white m-5" : "text-black m-5"} />
             </a>
           </div>)}
