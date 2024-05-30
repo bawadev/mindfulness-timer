@@ -55,13 +55,13 @@ const NavigationBar = ({ isWhite }) => {
                   </a>
                 </li>
                 <li className="py-2">
-                  <a href="/mindfulness-timer/resources" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
+                  <a href="/resources" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
                     <FontAwesomeIcon icon={faBook} className="mr-2" />
                     Resources
                   </a>
                 </li>
                 <li className="py-2">
-                  <a href="/mindfulness-timer/settings" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
+                  <a href="/settings" className={`text-lg ${isWhite ? "text-white" : "text-black"} hover:text-gray-800 underline`}>
                     <FontAwesomeIcon icon={faCogs} className="mr-2" />
                     Settings
                   </a>
@@ -70,7 +70,7 @@ const NavigationBar = ({ isWhite }) => {
             </div>
           ):(
           <div className={`md:flex ${showMenu ? "block" : "hidden"} md:items-center space-x-6 mt-4 md:mt-0`}>
-            <a href="/stats" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
+            <a href="/mindfulness-timer/stats" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
               <FontAwesomeIcon icon={faChartLine} size="2x" className={isWhite ? "text-white m-5" : "text-black m-5"} />
             </a>
             <a href="/resources" className={!isWhite ? "text-white hover:text-gray-300" : "text-black hover:text-gray-800"}>
